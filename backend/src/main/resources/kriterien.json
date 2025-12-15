@@ -1,0 +1,59 @@
+[
+  {
+    "id": "A01",
+    "titel": "Projektplanung und -steuerung",
+    "anforderungen": [
+      "Es wurde ein Projektplan erstellt, der alle relevanten Phasen und Meilensteine enthält.",
+      "Die Projektplanung wurde mit geeigneten Methoden (z.B. Gantt-Diagramm, Kanban) durchgeführt.",
+      "Ressourcen wurden realistisch geplant und zugewiesen.",
+      "Risiken wurden identifiziert und Massnahmen zur Risikominimierung definiert.",
+      "Der Projektfortschritt wird regelmässig überwacht und dokumentiert.",
+      "Abweichungen vom Plan werden erkannt und entsprechende Massnahmen eingeleitet."
+    ],
+    "gütestufen": {
+      "6": 3,
+      "4": 2,
+      "2": 1,
+      "0": 0
+    },
+    "teil": "Teil1"
+  },
+  {
+    "id": "C02",
+    "titel": "Datenmodell entwickeln",
+    "anforderungen": [
+      "Es wurde eine geeignete Datenmodellierungsmethodik (bspw. relational, objektorientierte, ER-Modellierung) gewählt, die Wahl wurde sinnvoll begründet.",
+      "In der Umsetzung des Datenmodells wurden die spezifischen Geschäftsanforderungen korrekt widerspiegelt.",
+      "Die Grundsätze der Normalisierung wurden sinnvoll angewandt.",
+      "Das Datenmodell ist flexibel und skalierbar.",
+      "Das Datenmodell ist ausreichend dokumentiert, damit andere Entwickler das Modell verstehen und damit arbeiten können.",
+      "Die Performanceanforderungen sind dokumentiert und es wurde ihnen entsprochen (bspw. via Indexierungen)."
+    ],
+    "gütestufen": {
+      "6": 3,
+      "4": 2,
+      "2": 1,
+      "0": 0
+    },
+    "teil": "Teil1"
+  },
+  {
+    "id": "DOC01",
+    "titel": "Projektdokumentation erstellen",
+    "anforderungen": [
+      "Die Projektdokumentation ist vollständig und strukturiert aufgebaut.",
+      "Technische Entscheidungen wurden dokumentiert und begründet.",
+      "Die Dokumentation ist für andere Entwickler nachvollziehbar und verständlich.",
+      "Installations- und Konfigurationsanleitungen sind vorhanden.",
+      "Die Dokumentation wird während der Projektlaufzeit aktuell gehalten."
+    ],
+    "gütestufen": {
+      "5": 3,
+      "3": 2,
+      "2": 1,
+      "0": 0
+    },
+    "teil": "Teil2"
+  }
+]
+
