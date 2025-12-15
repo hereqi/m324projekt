@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Datenbank
+  postgres:
+    image: postgres:15-alpine
+    container_name: m324-postgres
+    environment:
+      POSTGRES_DB: kriterien_db
+      POSTGRES_USER: kriterien_user
+      POSTGRES_PASSWORD: kriterien_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kriterien_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - m324-network
+
+  # Spring Boot Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: m324-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/kriterien_db
+      SPRING_DATASOURCE_USERNAME: kriterien_user
+      SPRING_DATASOURCE_PASSWORD: kriterien_password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - m324-network
+    volumes:
+      - ./backend:/app
+      - maven_cache:/root/.m2
+
+  # React Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: m324-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_API_URL: http://localhost:8080/api
+    depends_on:
+      - backend
+    networks:
+      - m324-network
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+volumes:
+  postgres_data:
+  maven_cache:
+
+networks:
+  m324-network:
+    driver: bridge
+

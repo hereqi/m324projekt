@@ -1,0 +1,57 @@
+[
+  {
+    "id": "A01",
+    "titel": "Beispiel Kriterium aus Kategorie A",
+    "anforderungen": [
+      "Anforderung 1",
+      "Anforderung 2",
+      "Anforderung 3",
+      "Anforderung 4",
+      "Anforderung 5",
+      "Anforderung 6"
+    ],
+    "gütestufen": {
+      "6": 3,
+      "4": 2,
+      "2": 1,
+      "0": 0
+    },
+    "teil": "Teil1"
+  },
+  {
+    "id": "C02",
+    "titel": "Datenmodell entwickeln",
+    "anforderungen": [
+      "Es wurde eine geeignete Datenmodellierungsmethodik gewählt, die Wahl wurde sinnvoll begründet.",
+      "In der Umsetzung des Datenmodells wurden die spezifischen Geschäftsanforderungen korrekt widerspiegelt.",
+      "Die Grundsätze der Normalisierung wurden sinnvoll angewandt.",
+      "Das Datenmodell ist flexibel und skalierbar.",
+      "Das Datenmodell ist ausreichend dokumentiert, damit andere Entwickler das Modell verstehen und damit arbeiten können.",
+      "Die Performanceanforderungen sind dokumentiert und es wurde ihnen entsprochen (bspw. via Indexierungen)."
+    ],
+    "gütestufen": {
+      "6": 3,
+      "4": 2,
+      "2": 1,
+      "0": 0
+    },
+    "teil": "Teil1"
+  },
+  {
+    "id": "DOC01",
+    "titel": "Beispiel Kriterium aus Dokumentation",
+    "anforderungen": [
+      "Anforderung 1",
+      "Anforderung 2",
+      "Anforderung 3"
+    ],
+    "gütestufen": {
+      "3": 3,
+      "2": 2,
+      "1": 1,
+      "0": 0
+    },
+    "teil": "Teil2"
+  }
+]
+
