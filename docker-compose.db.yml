@@ -1,0 +1,24 @@
+version: '3.8'
+
+# Nur PostgreSQL Datenbank für lokale Entwicklung
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: m324-postgres
+    environment:
+      POSTGRES_DB: kriterien_db
+      POSTGRES_USER: kriterien_user
+      POSTGRES_PASSWORD: kriterien_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kriterien_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+
