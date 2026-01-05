@@ -15,13 +15,20 @@ Eine Webapplikation zur Nachverfolgung der Erfüllung von Kriterien für die ind
 ## Projektstruktur
 
 ```
-m324-projekt/
+m324projekt/
 ├── frontend/          # React Frontend
 ├── backend/           # Spring Boot Backend
+├── docs/              # Projekt-Dokumentation
+│   ├── projekt/       # Projekt-Dokumentation
+│   ├── ki-nutzung/    # KI-Nutzung Dokumentation
+│   ├── testkonzept/   # Testkonzept
+│   └── setup/         # Setup-Anleitungen
 ├── docker-compose.yml # Docker Compose Konfiguration
 └── .github/
     └── workflows/     # GitHub Actions CI/CD Pipeline
 ```
+
+**Detaillierte Dokumentation:** Siehe [docs/README.md](./docs/README.md)
 
 ## Git Branch-Workflow für 3 Personen
 
@@ -142,12 +149,16 @@ Siehe `.github/workflows/ci.yml` für Details.
 ### KriteriumErfüllung
 - personId, kriteriumId, erfüllteAnforderungen[], notizen
 
-## KI-Nutzung
+## Dokumentation
 
-Alle KI-Nutzungen werden im Repository dokumentiert:
-- Was wurde mit KI erstellt?
-- Wo im Code?
-- Kurze Notiz zur Verwendung
+Alle Projekt-Dokumentation befindet sich im `docs/` Verzeichnis:
+
+- **[Dokumentation Übersicht](./docs/README.md)** - Übersicht aller Dokumente
+- **[Repository-Analyse](./docs/ANALYSE.md)** - Analyse der aktuellen Struktur
+- **[Umstrukturierungsplan](./docs/UMSTRUKTURIERUNGSPLAN.md)** - Plan zur Verbesserung der Projektstruktur
+- **[KI-Nutzung](./docs/ki-nutzung/KI_NUTZUNG.md)** - Dokumentation aller KI-Nutzungen
+- **[Testkonzept](./docs/testkonzept/TESTKONZEPT.md)** - Testkonzept und Testfälle
+- **[Docker Setup](./docs/setup/DOCKER_SETUP.md)** - Docker Setup-Anleitung
 
 ## Team-Mitglieder
 
