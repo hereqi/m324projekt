@@ -17,8 +17,6 @@ env:
   JAVA_VERSION: '17'
   # Maven Version (wird von setup-java automatisch installiert)
   MAVEN_VERSION: '3.9.5'
-  # Maven Cache Key für bessere Performance
-  MAVEN_CACHE_KEY: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
 
 jobs:
   # Job: Backend Build und Tests
@@ -46,7 +44,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.m2
-          key: ${{ env.MAVEN_CACHE_KEY }}
+          key: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             maven-${{ runner.os }}-
       
@@ -85,9 +83,9 @@ jobs:
           flags: backend
           name: backend-coverage
           fail_ci_if_error: false
-        env:
-          # GitHub Secret für Codecov (optional)
-          # CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        # GitHub Secret für Codecov (optional, kann später konfiguriert werden)
+        # env:
+        #   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       
       # Schritt 9: Coverage-Bericht als Artifact speichern
       - name: Archive Coverage Report
