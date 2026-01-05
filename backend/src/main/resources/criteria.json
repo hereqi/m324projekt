@@ -1,0 +1,47 @@
+[
+  {
+    "id": "C02",
+    "titel": "Datenmodell entwickeln",
+    "leitfrage": "Wurde ein professionelles, normiertes und dokumentiertes Datenmodell entwickelt, das die Geschäftsanforderungen korrekt abbildet?",
+    "teil": "Teil1",
+    "anforderungen": [
+      "Es wurde eine geeignete Datenmodellierungsmethodik gewählt, die Wahl wurde sinnvoll begründet.",
+      "In der Umsetzung des Datenmodells wurden die spezifischen Geschäftsanforderungen korrekt widerspiegelt.",
+      "Die Grundsätze der Normalisierung wurden sinnvoll angewandt.",
+      "Das Datenmodell ist flexibel und skalierbar.",
+      "Das Datenmodell ist ausreichend dokumentiert, damit andere Entwickler das Modell verstehen und damit arbeiten können.",
+      "Die Performanceanforderungen sind dokumentiert und es wurde ihnen entsprochen (bspw. via Indexierungen)."
+    ]
+  },
+  {
+    "id": "B05",
+    "titel": "Backend-Architektur implementieren",
+    "leitfrage": "Wurde eine saubere, wartbare und skalierbare Backend-Architektur mit klarer Schichtentrennung implementiert?",
+    "teil": "Teil2",
+    "anforderungen": [
+      "Die Architektur folgt dem Layered Architecture Pattern mit klarer Trennung von Controller, Service und Repository Layer.",
+      "Die Business-Logik ist vollständig im Service-Layer implementiert und nicht im Controller.",
+      "Datenbank-Zugriffe erfolgen ausschliesslich über Repository-Interfaces.",
+      "Exception-Handling ist zentral implementiert mit benutzerfreundlichen Fehlermeldungen.",
+      "Die API folgt RESTful Prinzipien mit konsistenten HTTP-Methoden und Status-Codes.",
+      "Code-Duplikation wurde vermieden durch Wiederverwendung von Komponenten und Utilities.",
+      "Die Architektur ist ausreichend dokumentiert (z.B. in README oder Architektur-Diagrammen)."
+    ]
+  },
+  {
+    "id": "DOC01",
+    "titel": "Projektdokumentation erstellen",
+    "leitfrage": "Ist die Projektdokumentation vollständig, verständlich und für andere Entwickler nachvollziehbar?",
+    "teil": "Dokumentation",
+    "anforderungen": [
+      "Das README enthält eine klare Projektbeschreibung und Setup-Anleitung.",
+      "Die API-Dokumentation beschreibt alle Endpoints mit Request/Response-Beispielen.",
+      "Die Architektur und Design-Entscheidungen sind dokumentiert.",
+      "Die Datenbank-Struktur ist dokumentiert (z.B. ER-Diagramm oder Schema-Beschreibung).",
+      "Wichtige Konfigurationen und Umgebungsvariablen sind dokumentiert.",
+      "Die Teststrategie und Testabdeckung sind dokumentiert.",
+      "Alle verwendeten Technologien und deren Versionen sind aufgelistet."
+    ]
+  }
+]
+
