@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+   kriteriendb:
+      image: mysql:latest
+      container_name: kriteriendb
+      command: mysqld
+      environment:
+        MYSQL_USER: user
+        MYSQL_PASSWORD: 1234
+        MYSQL_ROOT_PASSWORD: 1234
+        MYSQL_DATABASE: default_schema
+      volumes:
+        - ./init.sql:/docker-entrypoint-initdb.d/1.sql
+      ports:
+       - '3306:3306'
+
+   app:
+      depends_on:
+       - kriteriendb
+      image: phpmyadmin/phpmyadmin
+      container_name: phpmyadmin
+      ports:
+       - '80:80'
+      environment:
+        PMA_HOST: kriteriendb
+
+volumes:
+    dbdata:
