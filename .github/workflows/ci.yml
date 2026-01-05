@@ -68,7 +68,14 @@ jobs:
         # jacoco:report generiert Coverage-Berichte
         continue-on-error: false
       
-      # Schritt 7: Coverage-Bericht hochladen (optional, für GitHub UI)
+      # Schritt 7: Coverage-Check (muss 80%+ sein)
+      - name: Verify Coverage (80%+)
+        working-directory: ./backend
+        run: mvn verify -B
+        # verify Phase führt jacoco:check aus und prüft ob Coverage mindestens 80% ist
+        continue-on-error: false
+      
+      # Schritt 8: Coverage-Bericht hochladen (optional, für GitHub UI)
       - name: Upload Coverage Report to Codecov
         uses: codecov/codecov-action@v4
         if: success()  # Nur wenn Tests erfolgreich waren
@@ -82,7 +89,7 @@ jobs:
           # GitHub Secret für Codecov (optional)
           # CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       
-      # Schritt 8: Coverage-Bericht als Artifact speichern
+      # Schritt 9: Coverage-Bericht als Artifact speichern
       - name: Archive Coverage Report
         uses: actions/upload-artifact@v4
         if: always()
@@ -93,7 +100,7 @@ jobs:
             backend/target/surefire-reports/**
           retention-days: 30
       
-      # Schritt 9: Test-Ergebnisse veröffentlichen (für GitHub UI)
+      # Schritt 10: Test-Ergebnisse veröffentlichen (für GitHub UI)
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v3
         if: always()
@@ -104,17 +111,11 @@ jobs:
           comment_mode: create new
           report_individual_runs: true
       
-      # Schritt 10: Coverage-Check (muss 80%+ sein)
-      - name: Verify Coverage (80%+)
-        working-directory: ./backend
-        run: mvn jacoco:check -B
-        # Prüft ob Coverage mindestens 80% ist, bricht bei Fehlern ab
-      
       # Schritt 11: Maven Package (JAR erstellen)
       - name: Package Backend
         working-directory: ./backend
-        run: mvn package -DskipTests -B
-        # -DskipTests weil Tests bereits in Schritt 6 ausgeführt wurden
+        run: mvn package -DskipTests -DskipITs -B
+        # -DskipTests und -DskipITs weil Tests bereits in Schritt 6-7 ausgeführt wurden
       
       # Schritt 12: Build Artifact speichern
       - name: Archive Backend JAR
