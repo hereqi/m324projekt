@@ -1,0 +1,225 @@
+name: CI Pipeline
+
+# Trigger: Pipeline läuft bei Push und Pull Requests auf main und develop Branches
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+# Umgebungsvariablen für die gesamte Pipeline
+env:
+  # Java Version für Build und Tests
+  JAVA_VERSION: '17'
+  # Maven Version (wird von setup-java automatisch installiert)
+  MAVEN_VERSION: '3.9.5'
+  # Maven Cache Key für bessere Performance
+  MAVEN_CACHE_KEY: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
+
+jobs:
+  # Job: Backend Build und Tests
+  backend-build-and-test:
+    name: Backend Build & Test
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Schritt 1: Repository auschecken
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Vollständige Git-Historie für bessere Coverage-Berichte
+      
+      # Schritt 2: Java Setup
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'  # Eclipse Temurin (OpenJDK)
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: 'maven'  # Automatisches Maven Dependency Caching
+      
+      # Schritt 3: Maven Cache wiederherstellen (optional, für Performance)
+      - name: Restore Maven Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ env.MAVEN_CACHE_KEY }}
+          restore-keys: |
+            maven-${{ runner.os }}-
+      
+      # Schritt 4: Maven Dependencies herunterladen
+      - name: Download Dependencies
+        working-directory: ./backend
+        run: mvn dependency:go-offline -B
+      
+      # Schritt 5: Maven Build (Kompilierung ohne Tests für schnelleres Feedback)
+      - name: Build Backend
+        working-directory: ./backend
+        run: mvn clean compile -B
+        # -B = Batch Mode (keine interaktive Eingabe)
+      
+      # Schritt 6: Tests ausführen mit Coverage
+      - name: Run Tests with Coverage
+        working-directory: ./backend
+        run: mvn test jacoco:report -B
+        # jacoco:report generiert Coverage-Berichte
+      
+      # Schritt 7: Coverage-Bericht hochladen (für GitHub UI)
+      - name: Upload Coverage Report
+        uses: codecov/codecov-action@v4
+        if: always()  # Läuft auch bei Test-Fehlern
+        with:
+          file: ./backend/target/site/jacoco/jacoco.xml
+          flags: backend
+          name: backend-coverage
+          fail_ci_if_error: false  # Pipeline bricht nicht ab bei Coverage-Upload-Fehlern
+        env:
+          # GitHub Secret für Codecov (optional, kann später konfiguriert werden)
+          # CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      
+      # Schritt 8: Coverage-Bericht als Artifact speichern
+      - name: Archive Coverage Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: backend-coverage-report
+          path: |
+            backend/target/site/jacoco/**
+            backend/target/surefire-reports/**
+          retention-days: 30
+      
+      # Schritt 9: Test-Ergebnisse veröffentlichen (für GitHub UI)
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v3
+        if: always()
+        with:
+          files: |
+            backend/target/surefire-reports/**/*.xml
+          check_name: Backend Test Results
+          comment_mode: create new
+          report_individual_runs: true
+      
+      # Schritt 10: Maven Package (JAR erstellen)
+      - name: Package Backend
+        working-directory: ./backend
+        run: mvn package -DskipTests -B
+        # -DskipTests weil Tests bereits in Schritt 6 ausgeführt wurden
+      
+      # Schritt 11: Build Artifact speichern
+      - name: Archive Backend JAR
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: backend-jar
+          path: backend/target/*.jar
+          retention-days: 7
+
+  # Job: Frontend Build (optional, falls Frontend vorhanden)
+  frontend-build:
+    name: Frontend Build
+    runs-on: ubuntu-latest
+    # Job läuft nur wenn Frontend-Dateien geändert wurden
+    if: contains(github.event.head_commit.modified, 'frontend/') || contains(github.event.head_commit.added, 'frontend/')
+    
+    steps:
+      # Schritt 1: Repository auschecken
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      # Schritt 2: Node.js Setup
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+      
+      # Schritt 3: Dependencies installieren
+      - name: Install Dependencies
+        working-directory: ./frontend
+        run: npm ci
+        # npm ci = Clean Install (schneller und zuverlässiger als npm install)
+      
+      # Schritt 4: Frontend Build
+      - name: Build Frontend
+        working-directory: ./frontend
+        run: npm run build
+        env:
+          # Beispiel für Umgebungsvariablen (kann später erweitert werden)
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL || 'http://localhost:8080/api' }}
+      
+      # Schritt 5: Frontend Build Artifact speichern
+      - name: Archive Frontend Build
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: frontend-build
+          path: frontend/build/**
+          retention-days: 7
+
+  # Job: Code Quality Checks (optional)
+  code-quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Schritt 1: Repository auschecken
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      # Schritt 2: Java Setup
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: 'maven'
+      
+      # Schritt 3: Maven Checkstyle/SpotBugs (falls konfiguriert)
+      - name: Run Code Quality Checks
+        working-directory: ./backend
+        run: mvn checkstyle:check spotbugs:check -B
+        continue-on-error: true  # Läuft weiter auch bei Warnungen
+      
+      # Schritt 4: Code Quality Berichte speichern
+      - name: Archive Code Quality Reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: code-quality-reports
+          path: |
+            backend/target/checkstyle-result.xml
+            backend/target/spotbugsXml.xml
+          retention-days: 30
+
+  # Job: Pipeline Status (zusammenfassender Job)
+  pipeline-status:
+    name: Pipeline Status
+    runs-on: ubuntu-latest
+    needs: [backend-build-and-test]
+    if: always()  # Läuft immer, auch bei Fehlern
+    
+    steps:
+      # Schritt 1: Status zusammenfassen
+      - name: Check Pipeline Status
+        run: |
+          echo "Pipeline Status Check"
+          echo "Backend Build: ${{ needs.backend-build-and-test.result }}"
+          # Weitere Status-Checks können hier hinzugefügt werden
+      
+      # Schritt 2: Bei Fehlern abbrechen
+      - name: Fail if Backend Tests Failed
+        if: needs.backend-build-and-test.result == 'failure'
+        run: |
+          echo "❌ Backend Tests failed!"
+          exit 1
+
+# Workflow-Level Konfiguration
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+  # Storniert laufende Pipelines wenn eine neue gestartet wird
+
