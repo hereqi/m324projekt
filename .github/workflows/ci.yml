@@ -178,11 +178,11 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
           cache: 'maven'
       
-      # Schritt 3: Maven Checkstyle/SpotBugs (falls konfiguriert)
+      # Schritt 3: Maven Checkstyle für Code-Qualität
       - name: Run Code Quality Checks
         working-directory: ./backend
-        run: mvn checkstyle:check spotbugs:check -B
-        continue-on-error: true  # Läuft weiter auch bei Warnungen
+        run: mvn checkstyle:check -B
+        # Pipeline bricht bei Checkstyle-Fehlern ab (failsOnError: true)
       
       # Schritt 4: Code Quality Berichte speichern
       - name: Archive Code Quality Reports
