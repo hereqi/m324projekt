@@ -66,18 +66,20 @@ jobs:
         working-directory: ./backend
         run: mvn test jacoco:report -B
         # jacoco:report generiert Coverage-Berichte
+        continue-on-error: false
       
-      # Schritt 7: Coverage-Bericht hochladen (für GitHub UI)
-      - name: Upload Coverage Report
+      # Schritt 7: Coverage-Bericht hochladen (optional, für GitHub UI)
+      - name: Upload Coverage Report to Codecov
         uses: codecov/codecov-action@v4
-        if: always()  # Läuft auch bei Test-Fehlern
+        if: success()  # Nur wenn Tests erfolgreich waren
+        continue-on-error: true  # Pipeline bricht nicht ab bei Codecov-Upload-Fehlern
         with:
           file: ./backend/target/site/jacoco/jacoco.xml
           flags: backend
           name: backend-coverage
-          fail_ci_if_error: false  # Pipeline bricht nicht ab bei Coverage-Upload-Fehlern
+          fail_ci_if_error: false
         env:
-          # GitHub Secret für Codecov (optional, kann später konfiguriert werden)
+          # GitHub Secret für Codecov (optional)
           # CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       
       # Schritt 8: Coverage-Bericht als Artifact speichern
@@ -102,13 +104,19 @@ jobs:
           comment_mode: create new
           report_individual_runs: true
       
-      # Schritt 10: Maven Package (JAR erstellen)
+      # Schritt 10: Coverage-Check (muss 80%+ sein)
+      - name: Verify Coverage (80%+)
+        working-directory: ./backend
+        run: mvn jacoco:check -B
+        # Prüft ob Coverage mindestens 80% ist, bricht bei Fehlern ab
+      
+      # Schritt 11: Maven Package (JAR erstellen)
       - name: Package Backend
         working-directory: ./backend
         run: mvn package -DskipTests -B
         # -DskipTests weil Tests bereits in Schritt 6 ausgeführt wurden
       
-      # Schritt 11: Build Artifact speichern
+      # Schritt 12: Build Artifact speichern
       - name: Archive Backend JAR
         uses: actions/upload-artifact@v4
         if: success()
@@ -181,8 +189,8 @@ jobs:
       # Schritt 3: Maven Checkstyle für Code-Qualität
       - name: Run Code Quality Checks
         working-directory: ./backend
-        run: mvn checkstyle:check -B
-        # Pipeline bricht bei Checkstyle-Fehlern ab (failsOnError: true)
+        run: mvn checkstyle:check -B || (echo "❌ Checkstyle-Fehler gefunden!" && exit 1)
+        # Pipeline bricht bei Checkstyle-Fehlern ab
       
       # Schritt 4: Code Quality Berichte speichern
       - name: Archive Code Quality Reports
@@ -192,7 +200,6 @@ jobs:
           name: code-quality-reports
           path: |
             backend/target/checkstyle-result.xml
-            backend/target/spotbugsXml.xml
           retention-days: 30
 
   # Job: Pipeline Status (zusammenfassender Job)
