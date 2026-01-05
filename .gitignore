@@ -37,3 +37,4 @@ docker-compose.override.yml
 # Maven
 backend/.mvn/wrapper/maven-wrapper.jar
 
+package-lock.json
