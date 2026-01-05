@@ -168,10 +168,12 @@ jobs:
           path: frontend/build/**
           retention-days: 7
 
-  # Job: Code Quality Checks (optional)
+  # Job: Code Quality Checks
   code-quality:
     name: Code Quality
     runs-on: ubuntu-latest
+    needs: backend-build-and-test  # Abhängigkeit vom Backend-Build
+    if: always()  # Läuft auch wenn Backend-Build fehlschlägt (für Berichte)
     
     steps:
       # Schritt 1: Repository auschecken
