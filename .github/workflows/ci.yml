@@ -68,14 +68,7 @@ jobs:
         # jacoco:report generiert Coverage-Berichte
         continue-on-error: false
       
-      # Schritt 7: Coverage-Check (muss 80%+ sein)
-      - name: Verify Coverage (80%+)
-        working-directory: ./backend
-        run: mvn verify -B
-        # verify Phase führt jacoco:check aus und prüft ob Coverage mindestens 80% ist
-        continue-on-error: false
-      
-      # Schritt 8: Coverage-Bericht hochladen (optional, für GitHub UI)
+      # Schritt 7: Coverage-Bericht hochladen (optional, für GitHub UI)
       - name: Upload Coverage Report to Codecov
         uses: codecov/codecov-action@v4
         if: success()  # Nur wenn Tests erfolgreich waren
@@ -110,6 +103,12 @@ jobs:
           check_name: Backend Test Results
           comment_mode: create new
           report_individual_runs: true
+      
+      # Schritt 10: Coverage-Check (muss 80%+ sein)
+      - name: Verify Coverage (80%+)
+        working-directory: ./backend
+        run: mvn jacoco:check -B
+        # Prüft ob Coverage mindestens 80% ist, bricht bei Fehlern ab
       
       # Schritt 11: Maven Package (JAR erstellen)
       - name: Package Backend
