@@ -36,24 +36,9 @@ Für jede KI-Nutzung wird dokumentiert:
 - **Wo:** `docker-compose.yml`, `docker-compose.db.yml`, `backend/Dockerfile`, `frontend/Dockerfile`
 - **Notiz:** Container-Konfigurationen wurden mit KI-Unterstützung erstellt
 
----
 
-## Hinweise
 
-- Diese Liste wird während der Entwicklung aktualisiert
-- Neue KI-Nutzungen sollten hier dokumentiert werden
-- Code-Kommentare mit `// KI-generiert` oder `/* KI-generiert */` sind optional
 
 ---
 
-## Template für neue Einträge
-
-```markdown
-### [Feature/Modul Name]
-
-#### [Spezifische Komponente]
-- **Was:** [Beschreibung]
-- **Wo:** `[Dateipfad]`
-- **Notiz:** [Kurze Beschreibung]
-```
 
