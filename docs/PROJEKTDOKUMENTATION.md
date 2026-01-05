@@ -615,19 +615,23 @@ CREATE TABLE erfuellte_anforderungen (
 
 ## Bekannte Einschränkungen
 
-1. **E2E-Tests:** Aktuell nur manuell, automatisierte E2E-Tests (Cypress/Playwright) noch nicht implementiert
-2. **Frontend-Tests:** React-Komponenten-Tests noch nicht implementiert
-3. **Staging-Deployment:** Automatisches Deployment in Staging-Umgebung noch nicht konfiguriert
+1. **Automatisierte E2E-Tests:** Aktuell nur manuell durchgeführt. Automatisierte E2E-Tests mit Cypress oder Playwright sind noch nicht implementiert.
+2. **Frontend Unit-Tests:** Nur ein grundlegender Test vorhanden (`App.test.js`). Umfassende Komponenten-Tests für PersonForm, CriterionCard, CriterionList, GradesDisplay fehlen noch.
+3. **Staging-Deployment:** Automatisches Deployment in eine Staging-Umgebung ist noch nicht konfiguriert. Die Pipeline erstellt nur Artifacts, führt aber kein Deployment durch.
 
 ---
 
-## Nächste Schritte
+## Nächste Schritte (Optional, nicht Teil der aktuellen Anforderungen)
 
-1. Automatisierte E2E-Tests implementieren
-2. Frontend Unit-Tests hinzufügen
-3. Staging-Deployment konfigurieren
-4. Performance-Tests
-5. Erweiterte Fehlerbehandlung
+Die folgenden Punkte sind für zukünftige Erweiterungen geplant, werden aber für die aktuelle Projektphase nicht benötigt:
+
+1. **Automatisierte E2E-Tests:** Implementierung mit Cypress oder Playwright für kritische User-Flows
+2. **Frontend Unit-Tests:** Umfassende Tests für alle React-Komponenten mit React Testing Library
+3. **Staging-Deployment:** Automatisches Deployment in Staging-Umgebung nach erfolgreichen Tests
+4. **Performance-Tests:** Load-Tests für die REST-API
+5. **Erweiterte Fehlerbehandlung:** Zentrales Exception-Handling im Backend mit globalem Exception Handler
+
+**Hinweis:** Die aktuelle Implementierung erfüllt alle Anforderungen der Aufgabenstellung. Die oben genannten Punkte sind optionale Erweiterungen für zukünftige Versionen.
 
 ---
 
