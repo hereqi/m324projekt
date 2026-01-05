@@ -71,11 +71,11 @@
             <scope>test</scope>
         </dependency>
         
-        <!-- H2 für Tests -->
+        <!-- H2 für Tests und Development -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <scope>test</scope>
+            <scope>runtime</scope>
         </dependency>
         
         <!-- Mockito für Unit Tests -->

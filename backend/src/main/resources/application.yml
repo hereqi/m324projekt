@@ -3,18 +3,23 @@ spring:
     name: kriterien-backend
   
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/kriterien_db}
-    username: ${SPRING_DATASOURCE_USERNAME:kriterien_user}
-    password: ${SPRING_DATASOURCE_PASSWORD:kriterien_password}
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:h2:mem:kriterien_db
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+  
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
   
   jpa:
     hibernate:
-      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
-    show-sql: false
+      ddl-auto: create-drop
+    show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.H2Dialect
         format_sql: true
   
   jackson:
