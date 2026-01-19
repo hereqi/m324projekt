@@ -141,8 +141,12 @@ jobs:
         working-directory: ./frontend
         run: |
           echo "📦 Installing npm dependencies..."
-          # Versuche npm ci, falls das fehlschlägt, verwende npm install
-          npm ci || (echo "⚠️ npm ci failed, trying npm install..." && npm install)
+          # Versuche npm ci, falls das fehlschlägt, synchronisiere Lock-Datei und installiere
+          if ! npm ci; then
+            echo "⚠️ npm ci failed, synchronizing package-lock.json..."
+            npm install --package-lock-only
+            npm ci
+          fi
           echo "✅ Dependencies installed!"
       
       # Schritt 4: Frontend Tests ausführen
