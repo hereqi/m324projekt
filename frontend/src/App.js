@@ -23,7 +23,7 @@ function HomePage() {
       setError(null);
     } catch (err) {
       setError('Fehler beim Laden der Personen');
-      console.error(err);
+      // Error wird bereits über setError angezeigt
     } finally {
       setLoading(false);
     }
@@ -76,11 +76,7 @@ function PersonDetailPage() {
   const [error, setError] = useState(null);
   const [gradesUpdateKey, setGradesUpdateKey] = useState(0);
   
-  useEffect(() => {
-    loadPerson();
-  }, [id]);
-  
-  const loadPerson = async () => {
+  const loadPerson = React.useCallback(async () => {
     try {
       setLoading(true);
       const data = await personService.getById(id);
@@ -91,11 +87,15 @@ function PersonDetailPage() {
                           err.response?.status >= 500 ? 'Serverfehler. Bitte versuchen Sie es später erneut.' :
                           'Fehler beim Laden der Person. Bitte versuchen Sie es erneut.';
       setError(errorMessage);
-      console.error(err);
+      // Error wird bereits über setError angezeigt
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
+  
+  useEffect(() => {
+    loadPerson();
+  }, [loadPerson]);
   
   const handleProgressUpdated = () => {
     // Trigger re-render of GradesDisplay

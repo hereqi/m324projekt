@@ -55,7 +55,7 @@ function CriterionCard({ criterion, progress, onProgressUpdate }) {
     try {
       await onProgressUpdate(criterion.id, erfuellteAnforderungen, notizen);
     } catch (err) {
-      console.error('Fehler beim Speichern:', err);
+      // Error wird bereits in handleProgressUpdate behandelt
     } finally {
       setSaving(false);
     }

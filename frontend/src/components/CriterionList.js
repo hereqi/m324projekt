@@ -10,11 +10,7 @@ function CriterionList({ personId, onProgressUpdated }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
-  useEffect(() => {
-    loadData();
-  }, [personId]);
-  
-  const loadData = async () => {
+  const loadData = React.useCallback(async () => {
     if (!personId) {
       setLoading(false);
       return;
@@ -42,11 +38,15 @@ function CriterionList({ personId, onProgressUpdated }) {
                           err.response?.status >= 500 ? 'Serverfehler. Bitte versuchen Sie es später erneut.' :
                           'Fehler beim Laden der Kriterien. Bitte versuchen Sie es erneut.';
       setError(errorMessage);
-      console.error(err);
+      // Error wird bereits über setError angezeigt
     } finally {
       setLoading(false);
     }
-  };
+  }, [personId]);
+  
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
   
   const handleProgressUpdate = async (criterionId, erfuellteAnforderungen, notizen) => {
     try {
@@ -71,7 +71,7 @@ function CriterionList({ personId, onProgressUpdated }) {
         onProgressUpdated();
       }
     } catch (err) {
-      console.error('Fehler beim Speichern des Fortschritts:', err);
+      // Error wird bereits über alert angezeigt
       const errorMessage = err.response?.data?.message || 
                           err.response?.status === 404 ? 'Person oder Kriterium nicht gefunden' :
                           err.response?.status === 400 ? 'Ungültige Daten' :

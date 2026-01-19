@@ -74,7 +74,7 @@ function GradesDisplay({ personId }) {
                           err.response?.status >= 500 ? 'Serverfehler. Bitte versuchen Sie es später erneut.' :
                           'Fehler beim Laden der Noten. Bitte versuchen Sie es erneut.';
       setError(errorMessage);
-      console.error(err);
+      // Error wird bereits über setError angezeigt
     } finally {
       setLoading(false);
     }
