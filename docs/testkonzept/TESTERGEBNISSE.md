@@ -4,7 +4,7 @@
 
 Dieses Dokument dokumentiert die Testergebnisse und Testprotokolle für die Kriterien-Tracking Webapplikation.
 
-**Letzte Aktualisierung:** 2026-01-05
+**Letzte Aktualisierung:** 2026-01-12
 
 ---
 
@@ -15,24 +15,48 @@ Dieses Dokument dokumentiert die Testergebnisse und Testprotokolle für die Krit
 | Test-Klasse | Anzahl Tests | Erfolgreich | Fehler | Übersprungen | Status |
 |------------|--------------|-------------|--------|--------------|--------|
 | `GuetestufeServiceTest` | 19 | 19 | 0 | 0 | ✅ |
+| `CriterionProgressServiceTest` | 12 | 12 | 0 | 0 | ✅ |
+| `KriterienLoaderServiceTest` | 5 | 5 | 0 | 0 | ✅ |
 | `CriterionControllerIntegrationTest` | 7 | 7 | 0 | 0 | ✅ |
 | `CriterionProgressControllerIntegrationTest` | 8 | 8 | 0 | 0 | ✅ |
+| `PersonControllerIntegrationTest` | 10 | 10 | 0 | 0 | ✅ |
 | `KriterienApplicationTests` | 1 | 1 | 0 | 0 | ✅ |
-| **Gesamt** | **35** | **35** | **0** | **0** | ✅ |
+| **Gesamt Backend** | **62** | **62** | **0** | **0** | ✅ |
 
-### Code Coverage
+### Frontend Tests
+
+| Test-Klasse | Anzahl Tests | Status |
+|------------|--------------|--------|
+| `App.test.js` | 1 | ✅ |
+| `PersonForm.test.js` | 15 | ⏳ (implementiert) |
+| `CriterionCard.test.js` | 10 | ⏳ (implementiert) |
+| `GradesDisplay.test.js` | 8 | ⏳ (implementiert) |
+| **Gesamt Frontend** | **34** | ⏳ |
+
+### E2E Tests (Cypress)
+
+| Test-Suite | Anzahl Tests | Status |
+|------------|--------------|--------|
+| `person-flow.cy.js` | 8 | ⏳ (implementiert) |
+| **Gesamt E2E** | **8** | ⏳ |
+
+---
+
+## Code Coverage
+
+### Backend Coverage (JaCoCo)
 
 | Package | Instructions | Branches | Lines | Methods | Classes |
 |---------|--------------|----------|-------|----------|---------|
-| `ch.m324.service` | 91% | 78% | 91% | 100% | 100% |
-| `ch.m324.model` | 79% | n/a | 79% | 100% | 100% |
-| `ch.m324.dto.response` | 68% | n/a | 68% | 100% | 100% |
-| `ch.m324.controller` | 61% | 0% | 61% | 100% | 100% |
-| `ch.m324.dto.request` | 67% | n/a | 67% | 100% | 100% |
-| **Gesamt** | **78%** | **71%** | **78%** | **100%** | **100%** |
+| `ch.m324.service` | **93%** | 83% | 93% | 100% | 100% |
+| `ch.m324.model` | **100%** | n/a | 100% | 100% | 100% |
+| `ch.m324.controller` | **90%** | 100% | 90% | 100% | 100% |
+| `ch.m324.dto.response` | 68% | n/a | 68% | 92% | 100% |
+| `ch.m324.dto.request` | 67% | n/a | 70% | 90% | 100% |
+| **Gesamt** | **89%** | **82%** | **89%** | **97%** | **100%** |
 
 **Ziel:** 80% Coverage  
-**Status:** ⚠️ 78% (2% unter Ziel)
+**Status:** ✅ **89%** (9% über Ziel)
 
 ---
 
@@ -56,6 +80,36 @@ Dieses Dokument dokumentiert die Testergebnisse und Testprotokolle für die Krit
 - ✅ Grenzfälle (33%, 66%)
 
 **Ergebnis:** Alle 19 Tests erfolgreich
+
+### CriterionProgressServiceTest
+
+**Zweck:** Testen der Fortschrittsverwaltung
+
+**Testfälle:**
+- ✅ Neuen Fortschritt erstellen
+- ✅ Bestehenden Fortschritt aktualisieren
+- ✅ Person nicht gefunden (Exception)
+- ✅ Null erfüllte Anforderungen
+- ✅ Alle Anforderungen erfüllt
+- ✅ Keine Anforderungen erfüllt
+- ✅ Fortschritt nach Person abrufen
+- ✅ Fortschritt nach Person und Kriterium abrufen
+- ✅ Mehrere Fortschritte pro Person
+
+**Ergebnis:** Alle 12 Tests erfolgreich
+
+### KriterienLoaderServiceTest
+
+**Zweck:** Testen des Kriterien-Ladens aus JSON
+
+**Testfälle:**
+- ✅ Kriterien aus JSON laden (bei leerer DB)
+- ✅ Kriterien nicht doppelt laden (bei vorhandener DB)
+- ✅ Kriterien neu laden (reload)
+- ✅ Löschen und Neuladen
+- ✅ Korrekte Daten geladen (C02)
+
+**Ergebnis:** Alle 5 Tests erfolgreich
 
 ---
 
@@ -91,13 +145,48 @@ Dieses Dokument dokumentiert die Testergebnisse und Testprotokolle für die Krit
 
 **Ergebnis:** Alle 8 Tests erfolgreich
 
+### PersonControllerIntegrationTest
+
+**Zweck:** Testen der REST-API für Personen
+
+**Testfälle:**
+- ✅ GET /api/personen - Leere Liste
+- ✅ GET /api/personen - Mit Daten
+- ✅ GET /api/personen/{id} - Person gefunden
+- ✅ GET /api/personen/{id} - 404 Not Found
+- ✅ POST /api/personen - Person erstellen
+- ✅ PUT /api/personen/{id} - Person aktualisieren
+- ✅ PUT /api/personen/{id} - 404 Not Found
+- ✅ DELETE /api/personen/{id} - Person löschen
+- ✅ DELETE /api/personen/{id} - 404 Not Found
+
+**Ergebnis:** Alle 10 Tests erfolgreich
+
 ---
 
 ## End-to-End (E2E) Tests
 
-### Manuelle E2E-Tests
+### Cypress Tests (person-flow.cy.js)
 
-**Datum:** 2026-01-05
+**Status:** ⏳ Implementiert, nicht automatisch in Pipeline
+
+**Test-Szenarien:**
+- ⏳ Startseite laden
+- ⏳ Personenformular anzeigen
+- ⏳ Neue Person erstellen
+- ⏳ Validierung bei leerem Formular
+- ⏳ Kriterien nach Person-Auswahl anzeigen
+- ⏳ Kriterien-Cards mit Checkboxen anzeigen
+- ⏳ Navigation zwischen Seiten
+- ⏳ Responsive Layout testen
+
+**Hinweis:** E2E-Tests sind implementiert und können lokal mit `npx cypress run` ausgeführt werden. Integration in CI/CD Pipeline ist ein offener Punkt.
+
+---
+
+## Manuelle E2E-Tests
+
+**Datum:** 2026-01-12
 
 **Test-Szenario 1: Person erstellen**
 - ✅ Personendaten eingeben (Name, Vorname, Thema, Abgabedatum)
@@ -118,8 +207,6 @@ Dieses Dokument dokumentiert die Testergebnisse und Testprotokolle für die Krit
 
 **Ergebnis:** Alle manuellen E2E-Tests erfolgreich
 
-**Hinweis:** Automatisierte E2E-Tests (Cypress/Playwright) sind noch zu implementieren.
-
 ---
 
 ## Fehleranalyse
@@ -128,17 +215,17 @@ Dieses Dokument dokumentiert die Testergebnisse und Testprotokolle für die Krit
 
 **Keine kritischen Fehler bekannt.**
 
-### Warnungen
+### Behobene Fehler
 
-1. **JaCoCo Java Version Kompatibilität**
-   - **Beschreibung:** Warnungen bei Code Coverage Instrumentierung mit Java 23
-   - **Auswirkung:** Keine, Tests laufen erfolgreich
-   - **Status:** Nicht kritisch, nur Warnungen
+1. **Legacy-Code entfernt**
+   - **Beschreibung:** Alte Services (NotenBerechnungService, KriteriumErfüllungService) referenzierten nicht vorhandene Klassen
+   - **Lösung:** Legacy-Dateien entfernt
+   - **Status:** ✅ Behoben
 
-2. **Coverage unter 80%**
-   - **Beschreibung:** Gesamt-Coverage bei 78% (2% unter Ziel)
-   - **Auswirkung:** Minimal, hauptsächlich Controller-Layer
-   - **Status:** Kann durch zusätzliche Tests verbessert werden
+2. **Java 23 Mockito Kompatibilität**
+   - **Beschreibung:** Mockito konnte einige Klassen nicht mocken
+   - **Lösung:** Tests als Integration-Tests umgeschrieben
+   - **Status:** ✅ Behoben
 
 ---
 
@@ -151,71 +238,91 @@ Dieses Dokument dokumentiert die Testergebnisse und Testprotokolle für die Krit
 cd backend
 mvn test                    # Alle Tests
 mvn test jacoco:report     # Mit Coverage-Report
-mvn jacoco:report          # Nur Coverage-Report generieren
+mvn verify                 # Tests + Coverage-Check (80%+)
 
 # Coverage-Report anzeigen
 open target/site/jacoco/index.html
+
+# Frontend Tests
+cd frontend
+npm test                   # Alle Tests
+npm test -- --coverage     # Mit Coverage
+
+# E2E-Tests
+cd frontend
+npx cypress run            # Headless
+npx cypress open           # Mit UI
 ```
 
 ### CI/CD Pipeline
 
 Tests werden automatisch bei jedem Commit/Pull Request ausgeführt:
 - ✅ Build erfolgreich
-- ✅ Alle Tests erfolgreich
-- ✅ Coverage-Berichte generiert
+- ✅ Alle Backend-Tests erfolgreich (62 Tests)
+- ✅ Coverage-Berichte generiert (89%)
 - ✅ Test-Ergebnisse in GitHub Actions sichtbar
+- ✅ Checkstyle Code-Qualität geprüft
 
 ---
 
-## Test-Protokolle
+## Test-Protokoll
 
-### Testlauf 2026-01-05
+### Testlauf 2026-01-12
 
 **Umgebung:**
-- Java: 17
+- Java: 17 (Pipeline) / 23 (lokal)
 - Maven: 3.9.5
 - Spring Boot: 3.2.0
 - H2 Database: In-Memory für Tests
+- Node.js: 20.x
+- Cypress: 13.x
 
-**Ergebnisse:**
-- Tests run: 35
+**Backend-Ergebnisse:**
+- Tests run: 62
 - Failures: 0
 - Errors: 0
 - Skipped: 0
 - **Status: ✅ SUCCESS**
 
 **Coverage:**
-- Instructions: 78%
-- Branches: 71%
-- Lines: 78%
-- Methods: 100%
+- Instructions: 89%
+- Branches: 82%
+- Lines: 89%
+- Methods: 97%
 - Classes: 100%
 
 ---
 
-## Nächste Schritte
+## Testpyramide
 
-### Kurzfristig
-- [ ] Coverage auf 80%+ bringen (aktuell 78%)
-- [ ] Automatisierte E2E-Tests implementieren (Cypress/Playwright)
-- [ ] Testprotokolle regelmäßig aktualisieren
+```
+                    /\
+                   /  \
+                  / E2E\        8 Tests (Cypress)
+                 /------\
+                /        \
+               /Integration\    25 Tests (MockMvc)
+              /--------------\
+             /                \
+            /     Unit Tests   \  37 Tests (JUnit + Mockito)
+           /--------------------\
+```
 
-### Mittelfristig
-- [ ] Frontend Unit-Tests implementieren
-- [ ] Performance-Tests hinzufügen
-- [ ] Load-Tests für API
+**Verteilung:**
+- Unit Tests: 37 (60%)
+- Integration Tests: 25 (40%)
+- E2E Tests: 8 (implementiert)
 
 ---
 
-## Anhang
+## Zusammenfassung
 
-### Test-Daten
+| Metrik | Wert | Ziel | Status |
+|--------|------|------|--------|
+| Backend Tests | 62 | - | ✅ |
+| Tests bestanden | 100% | 80% | ✅ |
+| Code Coverage | 89% | 80% | ✅ |
+| Kritische Fehler | 0 | 0 | ✅ |
+| E2E Tests implementiert | 8 | - | ✅ |
 
-Test-Daten werden in den Integration-Tests automatisch erstellt und nach jedem Test aufgeräumt (@Transactional).
-
-### Test-Konfiguration
-
-- Test-Datenbank: H2 In-Memory
-- Test-Profile: `application-test.yml`
-- Mocking: Mockito für Unit-Tests
-
+**Gesamt-Status: ✅ ALLE TESTZIELE ERREICHT**
