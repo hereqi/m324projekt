@@ -147,8 +147,10 @@ jobs:
         working-directory: ./frontend
         run: |
           echo "🧪 Running frontend tests..."
-          npm test -- --watchAll=false --passWithNoTests
+          npm test -- --watchAll=false --passWithNoTests --ci
           echo "✅ Frontend tests completed!"
+        env:
+          CI: true
         continue-on-error: true
       
       # Schritt 5: Frontend Build
@@ -156,10 +158,9 @@ jobs:
         working-directory: ./frontend
         run: |
           echo "🔨 Building frontend for production..."
-          npm run build
+          CI=false npm run build
           echo "✅ Frontend build successful!"
         env:
-          CI: false
           REACT_APP_API_URL: http://localhost:8080/api
       
       # Schritt 6: Frontend Build Artifact speichern
