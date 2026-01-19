@@ -56,12 +56,20 @@ function PersonForm({ onPersonCreated, existingPerson }) {
         });
       }
     } catch (err) {
-      const errorMessage = err.response?.data?.message || 
-                          err.response?.status === 404 ? 'Person nicht gefunden' :
-                          err.response?.status === 400 ? 'Ungültige Daten. Bitte überprüfen Sie Ihre Eingaben.' :
-                          err.response?.status === 409 ? 'Person existiert bereits' :
-                          err.response?.status >= 500 ? 'Serverfehler. Bitte versuchen Sie es später erneut.' :
-                          'Fehler beim Speichern der Person. Bitte versuchen Sie es erneut.';
+      let errorMessage;
+      if (err.response?.data?.message) {
+        errorMessage = err.response.data.message;
+      } else if (err.response?.status === 404) {
+        errorMessage = 'Person nicht gefunden';
+      } else if (err.response?.status === 400) {
+        errorMessage = 'Ungültige Daten. Bitte überprüfen Sie Ihre Eingaben.';
+      } else if (err.response?.status === 409) {
+        errorMessage = 'Person existiert bereits';
+      } else if (err.response?.status >= 500) {
+        errorMessage = 'Serverfehler. Bitte versuchen Sie es später erneut.';
+      } else {
+        errorMessage = 'Fehler beim Speichern der Person. Bitte versuchen Sie es erneut.';
+      }
       setError(errorMessage);
     } finally {
       setLoading(false);
