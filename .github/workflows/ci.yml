@@ -141,7 +141,8 @@ jobs:
         working-directory: ./frontend
         run: |
           echo "📦 Installing npm dependencies..."
-          npm ci
+          # Versuche npm ci, falls das fehlschlägt, verwende npm install
+          npm ci || (echo "⚠️ npm ci failed, trying npm install..." && npm install)
           echo "✅ Dependencies installed!"
       
       # Schritt 4: Frontend Tests ausführen
