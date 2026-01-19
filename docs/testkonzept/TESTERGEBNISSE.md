@@ -4,41 +4,51 @@
 
 Dieses Dokument dokumentiert die Testergebnisse und Testprotokolle für die Kriterien-Tracking Webapplikation.
 
-**Letzte Aktualisierung:** 2026-01-12
+**Letzte Aktualisierung:** 2026-01-19  
+**Pipeline Status:** ✅ ERFOLGREICH (Run #22)
 
 ---
 
 ## Test-Statistik
 
-### Backend Tests
+### Backend Tests (60 Tests)
 
 | Test-Klasse | Anzahl Tests | Erfolgreich | Fehler | Übersprungen | Status |
 |------------|--------------|-------------|--------|--------------|--------|
 | `GuetestufeServiceTest` | 19 | 19 | 0 | 0 | ✅ |
-| `CriterionProgressServiceTest` | 12 | 12 | 0 | 0 | ✅ |
+| `CriterionProgressServiceTest` | 11 | 11 | 0 | 0 | ✅ |
 | `KriterienLoaderServiceTest` | 5 | 5 | 0 | 0 | ✅ |
 | `CriterionControllerIntegrationTest` | 7 | 7 | 0 | 0 | ✅ |
 | `CriterionProgressControllerIntegrationTest` | 8 | 8 | 0 | 0 | ✅ |
-| `PersonControllerIntegrationTest` | 10 | 10 | 0 | 0 | ✅ |
+| `PersonControllerIntegrationTest` | 9 | 9 | 0 | 0 | ✅ |
 | `KriterienApplicationTests` | 1 | 1 | 0 | 0 | ✅ |
-| **Gesamt Backend** | **62** | **62** | **0** | **0** | ✅ |
+| **Gesamt Backend** | **60** | **60** | **0** | **0** | ✅ |
 
-### Frontend Tests
+### Frontend Tests (18 Tests)
 
-| Test-Klasse | Anzahl Tests | Status |
-|------------|--------------|--------|
-| `App.test.js` | 1 | ✅ |
-| `PersonForm.test.js` | 15 | ⏳ (implementiert) |
-| `CriterionCard.test.js` | 10 | ⏳ (implementiert) |
-| `GradesDisplay.test.js` | 8 | ⏳ (implementiert) |
-| **Gesamt Frontend** | **34** | ⏳ |
+| Test-Klasse | Anzahl Tests | Erfolgreich | Status |
+|------------|--------------|-------------|--------|
+| `PersonForm.test.js` | 5 | 5 | ✅ |
+| `CriterionCard.test.js` | 5 | 5 | ✅ |
+| `GradesDisplay.test.js` | 8 | 8 | ✅ |
+| **Gesamt Frontend** | **18** | **18** | ✅ |
 
 ### E2E Tests (Cypress)
 
 | Test-Suite | Anzahl Tests | Status |
 |------------|--------------|--------|
-| `person-flow.cy.js` | 8 | ⏳ (implementiert) |
+| `person-flow.cy.js` | 8 | ⏳ (implementiert, nicht in CI) |
 | **Gesamt E2E** | **8** | ⏳ |
+
+### Gesamtsumme
+
+| Kategorie | Tests | Status |
+|-----------|-------|--------|
+| Backend Unit Tests | 35 | ✅ |
+| Backend Integration Tests | 25 | ✅ |
+| Frontend Unit Tests | 18 | ✅ |
+| E2E Tests | 8 | ⏳ |
+| **GESAMT** | **86** | ✅ |
 
 ---
 
@@ -58,11 +68,22 @@ Dieses Dokument dokumentiert die Testergebnisse und Testprotokolle für die Krit
 **Ziel:** 80% Coverage  
 **Status:** ✅ **89%** (9% über Ziel)
 
+### Frontend Coverage (Jest)
+
+| Component | % Stmts | % Branch | % Funcs | % Lines |
+|-----------|---------|----------|---------|---------|
+| `CriterionCard.js` | 69.44% | 75% | 66.66% | 68.57% |
+| `PersonForm.js` | 35.71% | 50% | 75% | 35% |
+| `GradesDisplay.js` | 16.39% | 5.55% | 21.42% | 18% |
+| **Gesamt Frontend** | **19%** | **24%** | **20%** | **19%** |
+
+**Hinweis:** Frontend Coverage ist unter 80%. Dies ist ein **offener Punkt** zur Verbesserung.
+
 ---
 
 ## Unit-Tests
 
-### GuetestufeServiceTest
+### GuetestufeServiceTest (19 Tests)
 
 **Zweck:** Testen der Gütestufen-Berechnungslogik
 
@@ -81,7 +102,7 @@ Dieses Dokument dokumentiert die Testergebnisse und Testprotokolle für die Krit
 
 **Ergebnis:** Alle 19 Tests erfolgreich
 
-### CriterionProgressServiceTest
+### CriterionProgressServiceTest (11 Tests)
 
 **Zweck:** Testen der Fortschrittsverwaltung
 
@@ -96,9 +117,9 @@ Dieses Dokument dokumentiert die Testergebnisse und Testprotokolle für die Krit
 - ✅ Fortschritt nach Person und Kriterium abrufen
 - ✅ Mehrere Fortschritte pro Person
 
-**Ergebnis:** Alle 12 Tests erfolgreich
+**Ergebnis:** Alle 11 Tests erfolgreich
 
-### KriterienLoaderServiceTest
+### KriterienLoaderServiceTest (5 Tests)
 
 **Zweck:** Testen des Kriterien-Ladens aus JSON
 
@@ -115,7 +136,7 @@ Dieses Dokument dokumentiert die Testergebnisse und Testprotokolle für die Krit
 
 ## Integration-Tests
 
-### CriterionControllerIntegrationTest
+### CriterionControllerIntegrationTest (7 Tests)
 
 **Zweck:** Testen der REST-API für Kriterien
 
@@ -129,7 +150,7 @@ Dieses Dokument dokumentiert die Testergebnisse und Testprotokolle für die Krit
 
 **Ergebnis:** Alle 7 Tests erfolgreich
 
-### CriterionProgressControllerIntegrationTest
+### CriterionProgressControllerIntegrationTest (8 Tests)
 
 **Zweck:** Testen der REST-API für Fortschritt
 
@@ -145,7 +166,7 @@ Dieses Dokument dokumentiert die Testergebnisse und Testprotokolle für die Krit
 
 **Ergebnis:** Alle 8 Tests erfolgreich
 
-### PersonControllerIntegrationTest
+### PersonControllerIntegrationTest (9 Tests)
 
 **Zweck:** Testen der REST-API für Personen
 
@@ -160,7 +181,53 @@ Dieses Dokument dokumentiert die Testergebnisse und Testprotokolle für die Krit
 - ✅ DELETE /api/personen/{id} - Person löschen
 - ✅ DELETE /api/personen/{id} - 404 Not Found
 
-**Ergebnis:** Alle 10 Tests erfolgreich
+**Ergebnis:** Alle 9 Tests erfolgreich
+
+---
+
+## Frontend Unit-Tests
+
+### PersonForm.test.js (5 Tests)
+
+**Zweck:** Testen des Personenformulars
+
+**Testfälle:**
+- ✅ Formular rendert korrekt
+- ✅ Alle Eingabefelder vorhanden (Name, Vorname, Thema, Abgabedatum)
+- ✅ Submit-Button vorhanden
+- ✅ Leeres Formular initialisiert
+- ✅ Formular-Eingabe funktioniert
+
+**Ergebnis:** Alle 5 Tests erfolgreich
+
+### CriterionCard.test.js (5 Tests)
+
+**Zweck:** Testen der Kriterien-Karte
+
+**Testfälle:**
+- ✅ Kriterium-ID und Titel angezeigt
+- ✅ Anforderungen als Checkboxen angezeigt
+- ✅ Gütestufe angezeigt
+- ✅ Notizen-Feld vorhanden
+- ✅ Progress-Callback funktioniert
+
+**Ergebnis:** Alle 5 Tests erfolgreich
+
+### GradesDisplay.test.js (8 Tests)
+
+**Zweck:** Testen der Notenanzeige
+
+**Testfälle:**
+- ✅ Ladezustand angezeigt
+- ✅ Noten korrekt angezeigt
+- ✅ Keine Daten - Info-Meldung angezeigt
+- ✅ Teil 1 und Teil 2 Noten angezeigt
+- ✅ Fehlermeldung bei API-Fehler
+- ✅ Aktualisiert bei Person-Änderung
+- ✅ Gütestufen-Summary angezeigt
+- ✅ Prozent-Fortschritt angezeigt
+
+**Ergebnis:** Alle 8 Tests erfolgreich
 
 ---
 
@@ -180,13 +247,13 @@ Dieses Dokument dokumentiert die Testergebnisse und Testprotokolle für die Krit
 - ⏳ Navigation zwischen Seiten
 - ⏳ Responsive Layout testen
 
-**Hinweis:** E2E-Tests sind implementiert und können lokal mit `npx cypress run` ausgeführt werden. Integration in CI/CD Pipeline ist ein offener Punkt.
+**Hinweis:** E2E-Tests sind implementiert und können lokal mit `npx cypress run` ausgeführt werden. **Integration in CI/CD Pipeline ist ein offener Punkt.**
 
 ---
 
 ## Manuelle E2E-Tests
 
-**Datum:** 2026-01-12
+**Datum:** 2026-01-19
 
 **Test-Szenario 1: Person erstellen**
 - ✅ Personendaten eingeben (Name, Vorname, Thema, Abgabedatum)
@@ -211,21 +278,31 @@ Dieses Dokument dokumentiert die Testergebnisse und Testprotokolle für die Krit
 
 ## Fehleranalyse
 
-### Bekannte Fehler
+### Bekannte Fehler / Offene Punkte
 
-**Keine kritischen Fehler bekannt.**
+1. **Frontend Test Coverage unter 80%**
+   - **Beschreibung:** Frontend Coverage liegt bei 19% (Ziel: 80%)
+   - **Ursache:** Komplexe React-Komponenten mit vielen Branches
+   - **Status:** ⚠️ **OFFEN** - Zur Verbesserung markiert
+
+2. **E2E-Tests nicht in CI/CD Pipeline**
+   - **Beschreibung:** Cypress-Tests werden nicht automatisch ausgeführt
+   - **Status:** ⏳ Implementiert, manuell ausführbar
 
 ### Behobene Fehler
 
-1. **Legacy-Code entfernt**
-   - **Beschreibung:** Alte Services (NotenBerechnungService, KriteriumErfüllungService) referenzierten nicht vorhandene Klassen
-   - **Lösung:** Legacy-Dateien entfernt
-   - **Status:** ✅ Behoben
+1. **Legacy-Code entfernt** ✅
+   - Alte Services (NotenBerechnungService, KriteriumErfüllungService) entfernt
 
-2. **Java 23 Mockito Kompatibilität**
-   - **Beschreibung:** Mockito konnte einige Klassen nicht mocken
-   - **Lösung:** Tests als Integration-Tests umgeschrieben
-   - **Status:** ✅ Behoben
+2. **Java 23 Mockito Kompatibilität** ✅
+   - Tests als Integration-Tests umgeschrieben
+
+3. **GitHub Actions Pipeline Fixes** ✅
+   - Artifact-Pfade korrigiert
+   - Pipeline-Status-Job optimiert
+
+4. **Frontend Test Selektoren** ✅
+   - Mehrdeutige Selektoren in Tests korrigiert
 
 ---
 
@@ -245,8 +322,8 @@ open target/site/jacoco/index.html
 
 # Frontend Tests
 cd frontend
-npm test                   # Alle Tests
-npm test -- --coverage     # Mit Coverage
+npm test -- --watchAll=false    # Alle Tests
+npm test -- --coverage          # Mit Coverage
 
 # E2E-Tests
 cd frontend
@@ -258,8 +335,9 @@ npx cypress open           # Mit UI
 
 Tests werden automatisch bei jedem Commit/Pull Request ausgeführt:
 - ✅ Build erfolgreich
-- ✅ Alle Backend-Tests erfolgreich (62 Tests)
-- ✅ Coverage-Berichte generiert (89%)
+- ✅ Alle Backend-Tests erfolgreich (60 Tests)
+- ✅ Frontend-Tests erfolgreich (18 Tests)
+- ✅ Coverage-Berichte generiert (89% Backend)
 - ✅ Test-Ergebnisse in GitHub Actions sichtbar
 - ✅ Checkstyle Code-Qualität geprüft
 
@@ -267,7 +345,7 @@ Tests werden automatisch bei jedem Commit/Pull Request ausgeführt:
 
 ## Test-Protokoll
 
-### Testlauf 2026-01-12
+### Testlauf 2026-01-19 (Pipeline Run #22)
 
 **Umgebung:**
 - Java: 17 (Pipeline) / 23 (lokal)
@@ -278,18 +356,24 @@ Tests werden automatisch bei jedem Commit/Pull Request ausgeführt:
 - Cypress: 13.x
 
 **Backend-Ergebnisse:**
-- Tests run: 62
+- Tests run: 60
+- Failures: 0
+- Errors: 0
+- Skipped: 0
+- **Status: ✅ SUCCESS**
+
+**Frontend-Ergebnisse:**
+- Tests run: 18
 - Failures: 0
 - Errors: 0
 - Skipped: 0
 - **Status: ✅ SUCCESS**
 
 **Coverage:**
-- Instructions: 89%
-- Branches: 82%
-- Lines: 89%
-- Methods: 97%
-- Classes: 100%
+- Backend Instructions: 89%
+- Backend Branches: 82%
+- Backend Lines: 89%
+- Frontend Statements: 19%
 
 ---
 
@@ -304,14 +388,14 @@ Tests werden automatisch bei jedem Commit/Pull Request ausgeführt:
                /Integration\    25 Tests (MockMvc)
               /--------------\
              /                \
-            /     Unit Tests   \  37 Tests (JUnit + Mockito)
+            /     Unit Tests   \  53 Tests (JUnit + Jest)
            /--------------------\
 ```
 
 **Verteilung:**
-- Unit Tests: 37 (60%)
-- Integration Tests: 25 (40%)
-- E2E Tests: 8 (implementiert)
+- Unit Tests: 53 (68%)
+- Integration Tests: 25 (32%)
+- E2E Tests: 8 (implementiert, nicht automatisiert)
 
 ---
 
@@ -319,10 +403,15 @@ Tests werden automatisch bei jedem Commit/Pull Request ausgeführt:
 
 | Metrik | Wert | Ziel | Status |
 |--------|------|------|--------|
-| Backend Tests | 62 | - | ✅ |
+| Backend Tests | 60 | - | ✅ |
+| Frontend Tests | 18 | - | ✅ |
 | Tests bestanden | 100% | 80% | ✅ |
-| Code Coverage | 89% | 80% | ✅ |
+| Backend Coverage | 89% | 80% | ✅ |
+| Frontend Coverage | 19% | 80% | ⚠️ |
 | Kritische Fehler | 0 | 0 | ✅ |
 | E2E Tests implementiert | 8 | - | ✅ |
+| CI/CD Pipeline | ✅ | ✅ | ✅ |
 
-**Gesamt-Status: ✅ ALLE TESTZIELE ERREICHT**
+**Gesamt-Status: ✅ ALLE KRITISCHEN TESTZIELE ERREICHT**
+
+**Offener Punkt:** Frontend Test Coverage (19% statt 80%)
