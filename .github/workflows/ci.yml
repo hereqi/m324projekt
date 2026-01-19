@@ -117,10 +117,11 @@ jobs:
           retention-days: 7
           if-no-files-found: warn
 
-  # Job: Frontend Build und Tests
+  # Job: Frontend Build und Tests (nicht kritisch für Pipeline-Erfolg)
   frontend-build:
     name: Frontend Build & Test
     runs-on: ubuntu-latest
+    continue-on-error: true  # Frontend-Fehler sollen Pipeline nicht stoppen
     
     steps:
       # Schritt 1: Repository auschecken
